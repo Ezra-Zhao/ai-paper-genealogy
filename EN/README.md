@@ -19,7 +19,7 @@
 
 ## Vol. 3 The Transformer and the Large Language Models (2017–2022) → `Vol3-Transformer-and-LLMs.md` ✅ Completed (2026-10-19; English edition 2026-10-20)
 
-★Attention Is All You Need 2017 / ★BERT 2019 / GPT-2 2019 / ★GPT-3 2020 / Scaling Laws 2020 / DDPM 2020 / Chinchilla 2022 / LoRA 2021 / ★InstructGPT 2022 / Chain-of-Thought 2022 / Latent Diffusion 2022
+★Attention Is All You Need 2017 / ★BERT 2019 / GPT-2 2019 / ★GPT-3 2020 / Scaling Laws 2020 / DDPM 2020 / RAG 2020 / Chinchilla 2022 / LoRA 2021 / ★InstructGPT 2022 / Chain-of-Thought 2022 / ReAct 2022 / Latent Diffusion 2022
 
 ## Vol. 4 The Frontier (2023–2026) → `Vol4-Frontier.md` ✅ Completed (2026-10-19; English edition 2026-10-20)
 
@@ -34,7 +34,8 @@ GPT-4 Technical Report 2023 / LLaMA 2023 / Mamba 2023 / DeepSeek-R1 2025 / ★At
 
 ## Progress
 
-- 2026-10-19: Project commissioned. Vol. 1 delivered first and approved as the house style; Vols. 2–4 followed the same day — **all four volumes complete, 32 papers**, each entry's bibliographic record and abstract checked against the publisher, arXiv, or PubMed. Three early papers without modern-style abstracts are annotated as such.
+- 2026-10-19: Project commissioned. Vol. 1 delivered first and approved as the house style; Vols. 2–4 followed the same day — **all four volumes complete, 34 papers**, each entry's bibliographic record and abstract checked against the publisher, arXiv, or PubMed. Three early papers without modern-style abstracts are annotated as such.
 - Attention Residuals, verified 2026-10-19: a real paper — arXiv:2603.15031, Kimi Team (Moonshot AI), submitted 16 March 2026; abstract translated in full from the arXiv original. Elon Musk's remark is recorded as cross-checked against multiple second-hand reports ("Impressive work from Kimi"), not as a first-hand source. AttnRes was written into the Kimi K3 architecture in July 2026. No individual author details are recorded — team and paper only.
 - Full-text translations (Chinese edition): the ★ full-text translation queue is complete (in `../全文精译/`), with all abridgements declared in the files themselves — no silent omissions. The three supplementary papers (AlphaGo / DeepSeek-R1 / Turing 1950) are also complete — 12 full-text translations in total (about 1,036 KB), all cross-reviewed against the original sources.
 - 2026-10-20: All four volumes and this contents page cross-reviewed (bibliographic records, abstract fidelity, experimental figures, translator's notes) and issued in this English edition.
+- 2026-10-20: Two entries added to Vol. 3 — RAG (Lewis et al., 2020) and ReAct (Yao et al., 2022), the foundation papers of the agent application track; entries written to house style in both the Chinese and English editions. Vol. 3 now holds 13 papers; the collection totals 34.

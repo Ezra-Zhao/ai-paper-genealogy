@@ -2,14 +2,14 @@
 
 English edition; abstracts are quoted verbatim from the original papers where available.
 
-This volume collects eleven papers. In 2017 the Transformer appeared, and for the five years that followed the main thread was a single story: scale this architecture up, pre-train it, then align it. From the fork between the BERT and GPT routes, to the scaling laws that supplied the engineering blueprint, to RLHF, which taught "large" to become "obedient." The diffusion side branch also joins the main line in this volume and is finally stitched together with the attention mechanism. Each entry gives the bibliographic record, the abstract, the key ideas, and the paper's place in the lineage.
+This volume collects thirteen papers. In 2017 the Transformer appeared, and for the five years that followed the main thread was a single story: scale this architecture up, pre-train it, then align it. From the fork between the BERT and GPT routes, to the scaling laws that supplied the engineering blueprint, to RLHF, which taught "large" to become "obedient." The diffusion side branch also joins the main line in this volume and is finally stitched together with the attention mechanism. Two more branches join in this volume — retrieval augmentation and agent-style acting: one bolts an external memory onto the model, the other carries it from answering questions to getting things done. Each entry gives the bibliographic record, the abstract, the key ideas, and the paper's place in the lineage.
 
 ---
 
 ### 1. Attention Is All You Need ★
 
 - **Authors & year**: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin (Google), 2017, 31st Conference on Neural Information Processing Systems (NeurIPS 2017)
-- **One-line significance**: The foundation of the following decade of deep learning — it discarded recurrence and convolution and built a sequence model out of attention alone; the other ten papers in this volume all stand on it.
+- **One-line significance**: The foundation of the following decade of deep learning — it discarded recurrence and convolution and built a sequence model out of attention alone; the other twelve papers in this volume all stand on it.
 
 **Abstract** (source: arXiv:1706.03762, current version)
 
@@ -122,7 +122,7 @@ It directly cashes in the question GPT-2 left behind, and pushes the "pre-train 
 
 **Relation to preceding and following work**
 
-It turns the preceding paper's intuition into formulas; the two share much of the same team, one supplying the phenomenon and the other the law. But its allocation conclusion — "feed the parameters more, the data less" — rested on a particular way of fitting, and two years later it was overturned by the more complete experiments of No. 7 in this volume, Chinchilla: a rare scene in this lineage of a law being corrected by a law.
+It turns the preceding paper's intuition into formulas; the two share much of the same team, one supplying the phenomenon and the other the law. But its allocation conclusion — "feed the parameters more, the data less" — rested on a particular way of fitting, and two years later it was overturned by the more complete experiments of No. 8 in this volume, Chinchilla: a rare scene in this lineage of a law being corrected by a law.
 
 **Original link**: https://arxiv.org/html/2001.08361v1
 
@@ -146,13 +146,37 @@ It turns the preceding paper's intuition into formulas; the two share much of th
 
 **Relation to preceding and following work**
 
-It takes over from the generative line of Volume 2 (GAN, VAE): GANs rely on an adversarial game and are hard to train; diffusion switches to "a thousand denoising regressions," pulling generative-model training back onto the old road of supervised learning. It looks unrelated to this volume's language main line — until No. 11, latent diffusion, moves the mechanism into a latent space and attaches text conditioning, and the great explosion of image generation truly arrives.
+It takes over from the generative line of Volume 2 (GAN, VAE): GANs rely on an adversarial game and are hard to train; diffusion switches to "a thousand denoising regressions," pulling generative-model training back onto the old road of supervised learning. It looks unrelated to this volume's language main line — until No. 13, latent diffusion, moves the mechanism into a latent space and attaches text conditioning, and the great explosion of image generation truly arrives.
 
 **Original link**: https://arxiv.org/pdf/2006.11239
 
 ---
 
-### 7. Training Compute-Optimal Large Language Models
+### 7. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
+
+- **Authors & year**: Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel, Sebastian Riedel, and Douwe Kiela (Facebook AI, University College London, and New York University), 2020, 34th Conference on Neural Information Processing Systems (NeurIPS 2020)
+- **One-line significance**: The founding paper of external memory for large models — the parameters handle language and reasoning while the facts live in a retrievable index, and "look it up before you write" became the default assembly for putting models to work.
+
+**Abstract** (source: arXiv:2005.11401, current version, v4)
+
+> Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures. Additionally, providing provenance for their decisions and updating their world knowledge remain open research problems. Pre-trained models with a differentiable access mechanism to explicit non-parametric memory can overcome this issue, but have so far been only investigated for extractive downstream tasks. We explore a general-purpose fine-tuning recipe for retrieval-augmented generation (RAG) -- models which combine pre-trained parametric and non-parametric memory for language generation. We introduce RAG models where the parametric memory is a pre-trained seq2seq model and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. We compare two RAG formulations, one which conditions on the same retrieved passages across the whole generated sequence, the other can use different passages per token. We fine-tune and evaluate our models on a wide range of knowledge-intensive NLP tasks and set the state-of-the-art on three open domain QA tasks, outperforming parametric seq2seq models and task-specific retrieve-and-extract architectures. For language generation tasks, we find that RAG models generate more specific, diverse and factual language than a state-of-the-art parametric-only seq2seq baseline.
+
+**Key ideas**
+
+- The central claim splits "memory" in two: parametric memory is what sits in the model's weights and can be changed only by retraining; non-parametric memory is an external text index, changed by swapping documents. Language ability belongs to the parameters, factual knowledge to the index — and that split is why RAG has endured: stale knowledge, provenance, and domain changes are all index-level matters that leave the model untouched.
+- The assembly: a dense retriever (the paper uses DPR, published the same year) turns Wikipedia into a vector index of some 21 million passages; given a question, the most relevant passages are retrieved and fed, together with the question, to a generator (the paper uses BART), which writes its answer with the material in front of it. The retrieval step is differentiable, so retriever and generator can be fine-tuned end to end.
+- The two formulations serve two uses: RAG-Sequence conditions on the same set of passages throughout the whole answer, suited to answers drawn from a single source; RAG-Token lets each token draw on different passages, suited to stitching several sources into one sentence.
+- It also answers "why do models make things up": knowledge inside parameters can be neither retrieved precisely nor cited; placing the facts in front of the generator compresses the space for fabrication, and answers can point back to specific passages — provenance became a proper requirement of generation systems from this paper on.
+
+**Relation to preceding and following work**
+
+It and GPT-3, from the same year, are two answers to the question of where knowledge should live: GPT-3 presses knowledge into the parameters and internalises it by scale; RAG externalises it, leaving the parameters to concentrate on language and reasoning. Its skeleton is still the seq2seq of Volume 2, with a retrieval step placed in front of it. The line it opened afterwards is the larger one: after 2022, "connect the model to a knowledge base" became the default move in deployment — enterprise knowledge question answering, customer support, and private-document assistants are all descendants of this line, and the RAG section of this repository's application track leads back to this entry.
+
+**Original link**: https://arxiv.org/abs/2005.11401
+
+---
+
+### 8. Training Compute-Optimal Large Language Models
 
 - **Authors & year**: Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza Rutherford, et al. (DeepMind), 2022, 36th Conference on Neural Information Processing Systems (NeurIPS 2022)
 - **One-line significance**: A measured overturning of the scaling laws — the point is not that bigger is always better, but that every large model of the day was "underfed."
@@ -176,7 +200,7 @@ It and No. 5 form a pair within the lineage: the same scaling-law story, correct
 
 ---
 
-### 8. LoRA: Low-Rank Adaptation of Large Language Models
+### 9. LoRA: Low-Rank Adaptation of Large Language Models
 
 - **Authors & year**: Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen (Microsoft), arXiv preprint June 2021, 10th International Conference on Learning Representations (ICLR 2022)
 - **One-line significance**: The de facto standard for parameter-efficient fine-tuning — freeze the large model, train only a pair of small matrices, and the cost of customising a hundred-billion-parameter model drops by four orders of magnitude.
@@ -200,7 +224,7 @@ It is the life-extension of the BERT-era "fine-tuning" tradition: when models gr
 
 ---
 
-### 9. Training Language Models to Follow Instructions with Human Feedback ★
+### 10. Training Language Models to Follow Instructions with Human Feedback ★
 
 - **Authors & year**: Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, et al. (OpenAI), 2022, 36th Conference on Neural Information Processing Systems (NeurIPS 2022)
 - **One-line significance**: The birth certificate of RLHF — after tuning by human feedback, a 1.3-billion-parameter model was preferred by humans over a GPT-3 a hundred times its size.
@@ -218,13 +242,13 @@ It is the life-extension of the BERT-era "fine-tuning" tradition: when models gr
 
 **Relation to preceding and following work**
 
-It stands on GPT-3's shoulders yet rewrites the rules of the game after GPT-3: capability comes from pre-training, usability from alignment. It complements No. 8, LoRA — one solves "how to make the model obedient," the other "how to change the model cheaply"; and with No. 10, chain-of-thought, it represents the two routes by which model performance was thereafter improved: one changes the training, the other changes the prompt.
+It stands on GPT-3's shoulders yet rewrites the rules of the game after GPT-3: capability comes from pre-training, usability from alignment. It complements No. 9, LoRA — one solves "how to make the model obedient," the other "how to change the model cheaply"; and with No. 11, chain-of-thought, it represents the two routes by which model performance was thereafter improved: one changes the training, the other changes the prompt.
 
 **Original link**: https://arxiv.org/html/2203.02155v1
 
 ---
 
-### 10. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models
+### 11. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models
 
 - **Authors & year**: Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed H. Chi, Quoc V. Le, and Denny Zhou (Google Research), 2022, 36th Conference on Neural Information Processing Systems (NeurIPS 2022)
 - **One-line significance**: The watershed of prompt engineering — without changing a single parameter, merely writing the "working" into the exemplars immediately doubled large models' reasoning scores.
@@ -248,7 +272,31 @@ It and GPT-3 are two faces of the same discovery: GPT-3 proved exemplars can tea
 
 ---
 
-### 11. High-Resolution Image Synthesis with Latent Diffusion Models
+### 12. ReAct: Synergizing Reasoning and Acting in Language Models
+
+- **Authors & year**: Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao (Princeton University and Google Research), arXiv preprint October 2022, 11th International Conference on Learning Representations (ICLR 2023)
+- **One-line significance**: The birth certificate of the agent — by interleaving "thinking" and "doing," with reasoning setting the plan and actions fetching the information, the language model turns from an answerer into a doer.
+
+**Abstract** (source: arXiv:2210.03629, current version, v3)
+
+> While large language models (LLMs) have demonstrated impressive capabilities across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with external sources, such as knowledge bases or environments, to gather additional information. We apply our approach, named ReAct, to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines, as well as improved human interpretability and trustworthiness over methods without reasoning or acting components. Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes issues of hallucination and error propagation prevalent in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generates human-like task-solving trajectories that are more interpretable than baselines without reasoning traces. On two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.
+
+**Key ideas**
+
+- The mechanism is a single loop: think a step (thought), act a step (action), look at the result (observation), then think again. The reasoning trace makes and revises the plan; the actions reach into the outside world — querying a knowledge base, operating an environment — and bring new information back. Neither half works alone: pure reasoning argues in a closed room, pure acting gropes blindly.
+- It is the direct sequel to No. 11, chain-of-thought, and it treats CoT's disease: chain-of-thought locks reasoning inside the model, so one misremembered fact poisons every later step with no way to correct it. ReAct lets the model stop mid-reasoning and query a Wikipedia API, using external facts to straighten the chain — the first mechanistic remedy for hallucination and error propagation.
+- The trajectory is itself the documentation: the alternation of thought and action is written out in the open, so a human can see what information each decision rested on and why that action was taken. The paper makes interpretability and diagnosability formal comparison points against the baselines — a large part of why the engineering world adopted the pattern.
+- And it is still only prompting: on ALFWorld and WebShop, one or two in-context examples and no training at all beat imitation and reinforcement learning methods trained on tens of thousands of task instances. "Think–act–observe" is not a trick for one task but a general interface — the execution loop of nearly every agent framework since has this shape.
+
+**Relation to preceding and following work**
+
+It joins two lines of this volume: No. 11, chain-of-thought, supplies the "thinking," and the external retrieval represented by No. 7, RAG, supplies the "fetching of information" — ReAct lets the model itself decide, inside the reasoning loop, when to fetch. It also continues No. 10, InstructGPT: only a model first trained to follow instructions can be expected to emit actions in the required format and walk the loop obediently. From here on, "language model + tools + loop" is the standard definition of an agent, and this repository's application track (Agent in Practice) is built on this paper.
+
+**Original link**: https://arxiv.org/abs/2210.03629
+
+---
+
+### 13. High-Resolution Image Synthesis with Latent Diffusion Models
 
 - **Authors & year**: Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer (Ludwig Maximilian University of Munich and Runway), 2022, IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR 2022)
 - **One-line significance**: The paper behind Stable Diffusion itself — moving diffusion from pixel space into latent space brought the compute threshold for generating high-resolution images down to consumer-grade graphics cards.
@@ -272,4 +320,4 @@ It is the direct descendant of No. 6, DDPM, solving precisely the "too slow, too
 
 ---
 
-*Verification note for this volume: the bibliographic details and abstracts of all eleven papers were checked against the arXiv abstract pages or the original paper texts. GPT-2 has no arXiv preprint; its abstract was checked against the original OpenAI technical report (cross-checked against the transcription in Semantic Scholar's bibliographic record). Four version differences are noted. The Transformer abstract follows the current arXiv version (English-to-French BLEU 41.8); the first version gave 41.0 for that figure, with slightly different wording. The BERT abstract follows the revised arXiv version (GLUE 80.5%, including SQuAD v2.0 at 83.1); the first version's figures differed slightly (GLUE 80.4%, the MultiNLI improvement stated as 5.6 points, and no SQuAD v2.0). The LoRA abstract follows arXiv v2, which added the GLUE experiments and the discussion of adapter latency; the v1 abstract was more briefly worded. The latent diffusion abstract follows the CVPR 2022 published version (i.e., arXiv v2), whose task list differs slightly from arXiv v1 (v1 read "semantic scene synthesis," where the published version reads "text-to-image synthesis"). In addition, the arXiv abstract of Chinchilla contains a typographical duplication ("4× more more data"); it is reproduced verbatim above, and the NeurIPS published version corrects the error.*
+*Verification note for this volume: the bibliographic details and abstracts of all thirteen papers were checked against the arXiv abstract pages or the original paper texts. GPT-2 has no arXiv preprint; its abstract was checked against the original OpenAI technical report (cross-checked against the transcription in Semantic Scholar's bibliographic record). Four version differences are noted. The Transformer abstract follows the current arXiv version (English-to-French BLEU 41.8); the first version gave 41.0 for that figure, with slightly different wording. The BERT abstract follows the revised arXiv version (GLUE 80.5%, including SQuAD v2.0 at 83.1); the first version's figures differed slightly (GLUE 80.4%, the MultiNLI improvement stated as 5.6 points, and no SQuAD v2.0). The LoRA abstract follows arXiv v2, which added the GLUE experiments and the discussion of adapter latency; the v1 abstract was more briefly worded. The latent diffusion abstract follows the CVPR 2022 published version (i.e., arXiv v2), whose task list differs slightly from arXiv v1 (v1 read "semantic scene synthesis," where the published version reads "text-to-image synthesis"). In addition, the arXiv abstract of Chinchilla contains a typographical duplication ("4× more more data"); it is reproduced verbatim above, and the NeurIPS published version corrects the error. Two entries were added in October 2026 — RAG (No. 7) and ReAct (No. 12), the foundation papers of the agent application track; their bibliographic details and abstracts were checked against the arXiv abstract pages, following the current versions (RAG v4, revised April 2021; ReAct v3, revised March 2023).*

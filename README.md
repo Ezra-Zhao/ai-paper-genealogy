@@ -2,6 +2,9 @@
 
 > **这不只是一套论文集，而是一条完整的 AI 学习路径**：论文 → 通俗讲解 → 动手实作 → 本地私有化部署，全部收在这一个仓里。完全没接触过 AI 的人，按下面的路线一步一步走，就能把 AI 真正学懂、学快。
 
+
+支持与更多：[GitHub Sponsors](https://github.com/sponsors/Ezra-Zhao) · [Gumroad — 我在用的模板与工作簿](https://ezraflow28.gumroad.com) · [Ko-fi](https://ko-fi.com/ezra777zhao)
+
 ## 从这里开始
 
 1. **[学习路线图](学习路线图.md)** —— 八个阶段的走法：每阶段学什么、读哪几篇、动手做什么、什么算过关。**先读这个。**

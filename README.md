@@ -38,6 +38,8 @@
 
 GPT-4 技术报告 2023 / LLaMA 2023 / Mamba 2023 / DeepSeek-R1 2025 / ★Attention Residuals（Moonshot/Kimi，2026-03）
 
+推荐收录卡（索引卡，非精译导读）：[Agent AI 综述（Durante et al. 2024，arXiv:2401.03568）](论文卡-Agent-AI综述-2024.md)
+
 ## 体例说明
 
 - 翻译口径：去 AI 味、用词准确、术语首次出现给中英对照。
